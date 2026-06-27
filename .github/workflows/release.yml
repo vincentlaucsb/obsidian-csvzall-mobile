@@ -1,0 +1,96 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "[0-9]*.[0-9]*.[0-9]*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to publish assets to, for example 0.1.0"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref }}
+
+      - name: Resolve release tag
+        id: release-tag
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            tag="${{ inputs.tag }}"
+          else
+            tag="${GITHUB_REF_NAME}"
+          fi
+          echo "tag=${tag}" >> "${GITHUB_OUTPUT}"
+
+      - name: Verify mobile bundle
+        shell: bash
+        run: |
+          tag="${{ steps.release-tag.outputs.tag }}"
+          version="$(node -p "require('./manifest.json').version")"
+          if [[ "${version}" != "${tag}" ]]; then
+            echo "manifest.json version (${version}) must match release tag (${tag})." >&2
+            exit 1
+          fi
+          node - <<'NODE'
+          const { readFileSync } = require("fs");
+          const manifest = JSON.parse(readFileSync("manifest.json", "utf8"));
+          const main = readFileSync("main.js", "utf8");
+          if (manifest.isDesktopOnly !== false) {
+            throw new Error("csvzall Mobile must keep isDesktopOnly=false.");
+          }
+          const banned = [
+            /require\(["'](?:node:)?(?:child_process|crypto|electron|fs|fs\/promises|http|https|os|path|zlib)["']\)/,
+            /\bchild_process\b/,
+            /\bfs\/promises\b/,
+            /\bnode:/,
+          ];
+          for (const pattern of banned) {
+            if (pattern.test(main)) {
+              throw new Error(`main.js contains a desktop-only API marker: ${pattern}`);
+            }
+          }
+          if (!main.includes("csvzall-mobile-embedded-wasm-viewer-v1")) {
+            throw new Error("main.js is missing the embedded WASM viewer marker.");
+          }
+          if (!main.includes("isMobileApp")) {
+            throw new Error("main.js must gate plugin registration to Obsidian mobile.");
+          }
+          NODE
+
+      - name: Generate release asset attestations
+        uses: actions/attest@v4
+        with:
+          subject-path: |
+            manifest.json
+            main.js
+            styles.css
+
+      - name: Publish Obsidian release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          tag="${{ steps.release-tag.outputs.tag }}"
+          assets=(manifest.json main.js styles.css)
+          if gh release view "${tag}" >/dev/null 2>&1; then
+            gh release upload "${tag}" "${assets[@]}" --clobber
+          else
+            gh release create "${tag}" "${assets[@]}" \
+              --title "${tag}" \
+              --notes "Release ${tag}"
+          fi
