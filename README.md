@@ -56,5 +56,7 @@ into the plugin directory when the plugin loads.
 
 This repository is generated from
 [vincentlaucsb/obsidian-csvzall](https://github.com/vincentlaucsb/obsidian-csvzall).
-Do not edit generated plugin assets here by hand; make source changes in the
-desktop/source repository and sync this distribution repo.
+The TypeScript source snapshot used for review lives in `mobile-src/` and
+`src/`. Do not edit generated plugin assets or source snapshots here by hand;
+make source changes in the desktop/source repository and sync this distribution
+repo.
