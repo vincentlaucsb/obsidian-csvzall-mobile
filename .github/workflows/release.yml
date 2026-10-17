@@ -51,7 +51,7 @@ jobs:
           const manifest = JSON.parse(readFileSync("manifest.json", "utf8"));
           const main = readFileSync("main.js", "utf8");
           if (manifest.isDesktopOnly !== false) {
-            throw new Error("csvzall Mobile must keep isDesktopOnly=false.");
+            throw new Error("csvzall Lite must keep isDesktopOnly=false.");
           }
           const banned = [
             /require\(["'](?:node:)?(?:child_process|crypto|electron|fs|fs\/promises|http|https|os|path|zlib|timers)["']\)/,
@@ -67,8 +67,8 @@ jobs:
           if (!main.includes("csvzall-mobile-embedded-wasm-viewer-v1")) {
             throw new Error("main.js is missing the embedded WASM viewer marker.");
           }
-          if (!main.includes("isMobileApp")) {
-            throw new Error("main.js must gate plugin registration to Obsidian mobile.");
+          if (readFileSync("mobile-src/main.ts", "utf8").includes("Platform.isMobileApp")) {
+            throw new Error("The lightweight plugin must load on desktop and mobile.");
           }
           NODE
 

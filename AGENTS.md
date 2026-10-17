@@ -7,3 +7,5 @@ This repository is generated from `vincentlaucsb/obsidian-csvzall`.
 - Make source changes in `obsidian-csvzall`, then run `npm run sync:mobile-repo`.
 - The mobile bundle must not contain Node.js or Electron APIs.
 - Obsidian Community releases should attach only `main.js`, `manifest.json`, and `styles.css`.
+- `demo-vault/` is the mobile test bed. Preserve local edits and ignored Obsidian state when syncing.
+- Run `node scripts/setup-mobile-demo-vault.mjs` to refresh its installed build; see `docs/mobile-demo-vault.md`.

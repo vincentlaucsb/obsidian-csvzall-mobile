@@ -1,7 +1,7 @@
 # Source Snapshot
 
 This directory contains the TypeScript source snapshot used to build the
-published csvzall Mobile release assets.
+published csvzall Lite release assets.
 
 The authoritative source repository is
 https://github.com/vincentlaucsb/obsidian-csvzall. This generated mobile

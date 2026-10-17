@@ -1,0 +1,8 @@
+* text=auto eol=lf
+
+# Preserve the imported bytes validated by javascriptSha256 on every platform.
+wasm-viewer/assets/*.js -text
+*.wasm -text
+*.png -text
+native-binaries/*.zip -text
+native-binaries/*.gz -text

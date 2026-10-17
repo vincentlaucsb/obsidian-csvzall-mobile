@@ -1,31 +1,29 @@
-# csvzall Mobile
+# csvzall Lite
 
 <img src="https://raw.githubusercontent.com/vincentlaucsb/csvzall/refs/heads/master/assets/csvzall-logo-theme-safe.png" alt="csvzall logo: a reciprocating saw cutting through a spreadsheet" width="760">
 
-Create, open, and edit CSV files directly inside Obsidian mobile with the bundled
+Create, view, and edit CSV files directly inside Obsidian on desktop and mobile with the bundled
 csvzall WASM viewer.
 
-csvzall Mobile is the phone and tablet companion to
-[csvzall for Obsidian](https://github.com/vincentlaucsb/obsidian-csvzall). It
-does not install the desktop helper binary and does not require a local server.
+csvzall Lite is a lightweight alternative to
+[csvzall for Obsidian](https://github.com/vincentlaucsb/obsidian-csvzall) for people
+who need basic CSV viewing and editing. It works on computers, phones, and
+tablets without installing a helper binary or running a local server.
 
-If csvzall Mobile saves you time, please star this repository. It helps other
-Obsidian users find the plugin and helps me gauge demand for continued mobile
-support.
+If csvzall Lite saves you time, please star this repository. It helps other
+Obsidian users find the plugin and helps me gauge demand for continued support.
 
 ## What It Does
 
 - Creates new CSV files from the command palette, ribbon, or folder menu.
-- Opens `.csv` files in an Obsidian mobile pane.
+- Opens `.csv` files in an Obsidian pane on desktop and mobile.
 - Loads the bundled WASM viewer without installing a desktop helper binary.
 - Supports basic CSV editing and saving back to the vault file.
 - Includes an Obsidian-style mobile toolbar button for opening navigation.
-- Stays inert on desktop so it does not compete with the desktop csvzall plugin
-  for CSV ownership.
 
 ## Requirements
 
-- Obsidian mobile.
+- Obsidian on desktop or mobile.
 - A local or synced Obsidian vault.
 - No external `csvzall` binary is required.
 
@@ -35,19 +33,19 @@ For desktop-native features such as chart generation, SQLite queries, large-file
 viewing through the native helper process, and managed helper binary updates,
 install [csvzall for Obsidian](https://github.com/vincentlaucsb/obsidian-csvzall).
 
-It is safe to keep both plugins in the same synced vault. The desktop plugin is
-desktop-only, and csvzall Mobile only registers itself as a CSV handler on
-Obsidian mobile.
+On desktop, enable either csvzall Lite for the bundled basic editor or csvzall
+for the native features. Keep only one enabled at a time because both register
+as the CSV file handler. On phones and tablets, use csvzall Lite.
 
 ## Privacy and Network Use
 
-csvzall Mobile does not collect telemetry and does not download executable code
+csvzall Lite does not collect telemetry and does not download executable code
 at runtime. The WASM viewer assets are embedded in `main.js` and materialized
 into the plugin directory when the plugin loads.
 
 ## Limitations
 
-- Mobile support is focused on CSV creating, viewing, and editing.
+- This plugin focuses on CSV creation, viewing, and editing on both platforms.
 - Charts, SQLite queries, and desktop helper-process features live in the
   desktop plugin.
 - Very large files may still exceed what a mobile device can comfortably hold in
