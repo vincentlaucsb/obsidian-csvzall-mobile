@@ -18,7 +18,10 @@ Obsidian users find the plugin and helps me gauge demand for continued support.
 - Creates new CSV files from the command palette, ribbon, or folder menu.
 - Opens `.csv` files in an Obsidian pane on desktop and mobile.
 - Loads the bundled WASM viewer without installing a desktop helper binary.
-- Supports basic CSV editing and saving back to the vault file.
+- Refreshes when the open CSV changes elsewhere and alerts you if you have local edits.
+- Turn on **AutoSave** in a CSV, TSV, or JSON pane to save after editing. Plugin settings let you start with it on, start with it off, or hide the switch.
+- Edits JSON with syntax highlighting and displays compact files with indentation while preserving their compact format on save.
+  To keep another viewer as your default, turn off **Use csvzall as the default JSON viewer** and reload Obsidian. Choose **Open in csvzall** from a JSON file’s menu to open it in Lite.
 - Includes an Obsidian-style mobile toolbar button for opening navigation.
 
 ## Requirements
